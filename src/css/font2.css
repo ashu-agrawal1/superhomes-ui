@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "HelveticaNeue";
+    src: url("./HelveticaNeueBlack.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: "HelveticaNeue", sans-serif;
+}
+
+.logo-font {
+    font-family: "HelveticaNeue", sans-serif;
+}
