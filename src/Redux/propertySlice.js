@@ -6,7 +6,7 @@ import { URL } from "../config"
 // Thunk to fetch all properties
 export const fetchProperties = createAsyncThunk("property/getAllProperties", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get("api/v1/property/getAllProperties")
+    const response = await axios.get(`${URL}`+"api/v1/property/getAllProperties")
     return response.data
   } catch (error) {
     console.error("Error fetching properties:", error)
