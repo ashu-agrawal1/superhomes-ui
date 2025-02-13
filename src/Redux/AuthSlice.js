@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import { toast } from "react-hot-toast"
+import { URL } from "../../config"
 
-const BASE_URL = "http://localhost:4000/api/v1/user"
+const BASE_URL = URL + "api/v1/user"
 
 // Async thunk for user registration
 export const registerUser = createAsyncThunk("auth/registerUser", async (userData, { rejectWithValue }) => {

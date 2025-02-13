@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import toast from "react-hot-toast"
+import { URL } from "../../config"
 
 // API URL base
-const API_URL = "http://localhost:4000/api/v1/reservation"
-const PAYMENT_API_URL = "http://localhost:4000/api/v1/payments"
+const API_URL = URL + "api/v1/reservation"
+const PAYMENT_API_URL = URL + "api/v1/payments"
 
 // Async thunk to create a reservation
 export const createReservation = createAsyncThunk(

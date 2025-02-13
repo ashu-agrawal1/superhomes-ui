@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
+import { URL } from "../../config"
 
-const BASE_URL = "http://localhost:4000/api/v1/reservation"
+const BASE_URL = URL + "api/v1/reservation"
 
 // Async thunk to fetch property availability by ID
 export const fetchPropertyAvailabilityById = createAsyncThunk(

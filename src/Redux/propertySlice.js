@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import { toast } from "react-hot-toast"
+import { URL } from "../../config"
 
 // Thunk to fetch all properties
 export const fetchProperties = createAsyncThunk("property/getAllProperties", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/v1/property/getAllProperties")
+    const response = await axios.get("api/v1/property/getAllProperties")
     return response.data
   } catch (error) {
     console.error("Error fetching properties:", error)
@@ -18,7 +19,7 @@ export const fetchPropertyById = createAsyncThunk(
   "property/getPropertyById",
   async (propertyId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/v1/property/getPropertyById/${propertyId}`)
+      const response = await axios.get(`${URL}api/v1/property/getPropertyById/${propertyId}`)
       return response.data
     } catch (error) {
       console.error("Error fetching property by ID:", error)
@@ -46,7 +47,7 @@ export const createProperty = createAsyncThunk("property/createProperty", async 
       formData.append("imageFile", file)
     })
 
-    const response = await axios.post("http://localhost:4000/api/v1/property/createProperty", formData, {
+    const response = await axios.post(URL+"api/v1/property/createProperty", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     })
     return response.data
@@ -78,7 +79,7 @@ export const updateProperty = createAsyncThunk("property/updateProperty", async 
     }
 
     const response = await axios.put(
-      `http://localhost:4000/api/v1/property/updatePropertyById/${propertyData.id}`,
+      `${URL}api/v1/property/updatePropertyById/${propertyData.id}`,
       formData,
       { headers: { "Content-Type": "multipart/form-data" } },
     )
@@ -92,7 +93,7 @@ export const updateProperty = createAsyncThunk("property/updateProperty", async 
 // Thunk to delete a property
 export const deleteProperty = createAsyncThunk("property/deleteProperty", async (propertyId, { rejectWithValue }) => {
   try {
-    const response = await axios.delete(`http://localhost:4000/api/v1/property/deletePropertyById/${propertyId}`)
+    const response = await axios.delete(`${URL}api/v1/property/deletePropertyById/${propertyId}`)
     return { id: propertyId, ...response.data }
   } catch (error) {
     console.error("Error deleting property:", error)
@@ -126,7 +127,7 @@ export const fetchFilteredProperties = createAsyncThunk(
       const params = new URLSearchParams(queryParams)
 
       // Add console.log to debug the URL being called
-      const url = `http://localhost:4000/api/v1/property/getFilteredProperties?${params}`
+      const url = `${URL}api/v1/property/getFilteredProperties?${params}`
       console.log("Calling API URL:", url)
 
       const response = await axios.get(url)
