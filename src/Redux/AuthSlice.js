@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import { toast } from "react-hot-toast"
-import { URL } from "../../config"
+import { URL } from "../config"
 
 const BASE_URL = URL + "api/v1/user"
 

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import { toast } from "react-hot-toast"
-import { URL } from "../../config"
+import { URL } from "../config"
 
 // Thunk to fetch all properties
 export const fetchProperties = createAsyncThunk("property/getAllProperties", async (_, { rejectWithValue }) => {

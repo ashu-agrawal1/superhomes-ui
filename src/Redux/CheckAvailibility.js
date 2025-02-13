@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
-import { URL } from "../../config"
+import { URL } from "../config"
 
 const BASE_URL = URL + "api/v1/reservation"
 

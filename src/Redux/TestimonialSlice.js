@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { URL } from '../../config';
+import { URL } from '../config';
 
 const API_BASE_URL = URL+'api/v1/testimonial';
 

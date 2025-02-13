@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import toast from "react-hot-toast"
-import { URL } from "../../config"
+import { URL } from "../config"
 
 // API URL base
 const API_URL = URL + "api/v1/reservation"
