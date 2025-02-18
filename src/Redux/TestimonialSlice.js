@@ -1,15 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { URL } from '../config';
-
-const API_BASE_URL = URL+'api/v1/testimonial';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+const baseurl = process.env.REACT_APP_BASE_URL;
+const API_BASE_URL = baseurl + "testimonial";
 
 // Async Thunks
 export const addReview = createAsyncThunk(
-  'testimonials/addReview',
+  "testimonials/addReview",
   async (reviewData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/addReview`, reviewData);
+      const response = await axios.post(
+        `${API_BASE_URL}/addReview`,
+        reviewData
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -18,7 +20,7 @@ export const addReview = createAsyncThunk(
 );
 
 export const fetchAllReviews = createAsyncThunk(
-  'testimonials/fetchAllReviews',
+  "testimonials/fetchAllReviews",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/getAllReview`);
@@ -30,10 +32,12 @@ export const fetchAllReviews = createAsyncThunk(
 );
 
 export const fetchReviewsByPropertyId = createAsyncThunk(
-  'testimonials/fetchReviewsByPropertyId',
+  "testimonials/fetchReviewsByPropertyId",
   async (propertyId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/getReviewByPropertyId/${propertyId}`);
+      const response = await axios.get(
+        `${API_BASE_URL}/getReviewByPropertyId/${propertyId}`
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -42,10 +46,13 @@ export const fetchReviewsByPropertyId = createAsyncThunk(
 );
 
 export const updateReviewById = createAsyncThunk(
-  'testimonials/updateReviewById',
+  "testimonials/updateReviewById",
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/updateReviewByID/${id}`, updatedData);
+      const response = await axios.put(
+        `${API_BASE_URL}/updateReviewByID/${id}`,
+        updatedData
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -54,7 +61,7 @@ export const updateReviewById = createAsyncThunk(
 );
 
 export const deleteReview = createAsyncThunk(
-  'testimonials/deleteReview',
+  "testimonials/deleteReview",
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.delete(`${API_BASE_URL}/deleteReview/${id}`);
@@ -67,10 +74,10 @@ export const deleteReview = createAsyncThunk(
 
 // Slice
 const testimonialsSlice = createSlice({
-  name: 'testimonials',
+  name: "testimonials",
   initialState: {
     reviews: [],
-    status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+    status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
   },
   reducers: {},
@@ -78,46 +85,46 @@ const testimonialsSlice = createSlice({
     builder
       // Add Review
       .addCase(addReview.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(addReview.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.reviews.push(action.payload);
       })
       .addCase(addReview.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       // Fetch All Reviews
       .addCase(fetchAllReviews.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchAllReviews.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.reviews = action.payload || []; // Ensure it's always an array
       })
       .addCase(fetchAllReviews.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       // Fetch Reviews by Property ID
       .addCase(fetchReviewsByPropertyId.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchReviewsByPropertyId.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.reviews = action.payload || []; // Ensure it's always an array
       })
       .addCase(fetchReviewsByPropertyId.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       // Update Review
       .addCase(updateReviewById.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(updateReviewById.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         const index = state.reviews.findIndex(
           (review) => review.id === action.payload.id
         );
@@ -132,21 +139,21 @@ const testimonialsSlice = createSlice({
         }
       })
       .addCase(updateReviewById.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       // Delete Review
       .addCase(deleteReview.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(deleteReview.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.reviews = state.reviews.filter(
           (review) => review.id !== action.payload.id
         );
       })
       .addCase(deleteReview.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       });
   },
