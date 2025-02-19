@@ -3,13 +3,15 @@ import { FaCrown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProperties } from "../Redux/propertySlice";
-import { format, parseISO, endOfMonth } from 'date-fns';
+import { format, parseISO, endOfMonth } from "date-fns";
 
 const PremiumProperties = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
 
-  const { properties, loading, error } = useSelector((state) => state.property || {});
+  const { properties, loading, error } = useSelector(
+    (state) => state.property || {}
+  );
 
   useEffect(() => {
     dispatch(fetchProperties());
@@ -17,14 +19,15 @@ const PremiumProperties = () => {
 
   const formatPropertyDate = (dateString) => {
     const date = parseISO(dateString);
-    const startDay = format(date, 'dd');
-    const endDay = format(endOfMonth(date), 'dd');
-    const month = format(date, 'MMM');
+    const startDay = format(date, "dd");
+    const endDay = format(endOfMonth(date), "dd");
+    const month = format(date, "MMM");
     return `${startDay}-${endDay} ${month}`;
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error fetching properties: {error.message || error}</div>;
+  if (error)
+    return <div>Error fetching properties: {error.message || error}</div>;
 
   const premiumProperties = Array.isArray(properties)
     ? properties.filter((property) => property.is_premium === 1)
@@ -47,48 +50,52 @@ const PremiumProperties = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  {premiumProperties.length > 0 ? (
-    premiumProperties.slice(0, 3).map((property) => (
-      <div key={property.id} className="flex flex-col space-y-2 h-full">
-        <div
-          onClick={() => handleClick(property.id)}
-          className="bg-white rounded-md shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden"
-        >
-          <div className="aspect-[3/2] w-full relative">
-            <img
-              src={property.images?.[0]?.url || "default-image.jpg"}
-              alt={`${property.title} property`}
-              className="object-cover w-full h-full"
-            />
-          </div>
-        </div>
+        {premiumProperties.length > 0 ? (
+          premiumProperties.slice(0, 3).map((property) => (
+            <div key={property.id} className="flex flex-col space-y-2 h-full">
+              <div
+                onClick={() => handleClick(property.id)}
+                className="bg-white rounded-md shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden"
+              >
+                <div className="aspect-[3/2] w-full relative">
+                  <img
+                    src={property.images?.[0]?.url || "default-image.jpg"}
+                    alt={`${property.title} property`}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </div>
 
-        <div className="px-2 flex flex-col flex-grow">
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-semibold line-clamp-1 text-2xl text-gray-800">{property.title}</h3>
-            <div className="flex items-center gap-1 text-xs">
-              <span className="text-blue-600">★</span>
-              <span className="font-medium">{property.rating || "4.6"}</span>
+              <div className="px-2 flex flex-col flex-grow">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-semibold text-gray-800 text-xl">
+                    {property.title}
+                  </h3>
+                  <div className="flex items-center gap-1 text-xl">
+                    <span className="text-blue-600">★</span>
+                    <span className="font-medium text-xl">
+                      {property.rating || "4.6"}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600">{property.location}</p>
+              </div>
+
+              <button
+                onClick={() => handleClick(property.id)}
+                className="w-full bg-blue-600 text-white py-2 px-3 text-[25.3px] hover:bg-blue-700 transition-colors font-semibold"
+              >
+                BOOK NOW
+              </button>
             </div>
-          </div>
-          <p className="text-sm text-gray-600">{property.location}</p>
-        </div>
-
-        <button
-          onClick={() => handleClick(property.id)}
-          className="w-full bg-blue-600 text-white py-2 px-3 text-[25.3px] hover:bg-blue-700 transition-colors font-semibold"
-        >
-          BOOK NOW
-        </button>
+          ))
+        ) : (
+          <div>No premium properties available.</div>
+        )}
       </div>
-    ))
-  ) : (
-    <div>No premium properties available.</div>
-  )}
-</div>
       <div className="flex justify-end mt-4">
         <button
-          onClick={() => nav('/listing')}
+          onClick={() => nav("/listing")}
           className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
         >
           See More
@@ -99,4 +106,3 @@ const PremiumProperties = () => {
 };
 
 export default PremiumProperties;
-

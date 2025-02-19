@@ -9,7 +9,7 @@ import {
 } from "react-icons/md";
 
 import FeatureProperty from "./FeatureProperty";
-import PremiumProperties from './PrimiumProperty';
+import PremiumProperties from "./PrimiumProperty";
 import SearchBar from "../components/Searchbar";
 const SRT = () => {
   const properties = [
@@ -20,20 +20,18 @@ const SRT = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      
-
       {/* Search Bar Section */}
-      <SearchBar/>
+      <SearchBar />
 
       {/* Featured Properties */}
-      <FeatureProperty/>
-      <div className="h-5 mt-6 md:mt-12 md:p-6  bg-gradient-to-r from-[#0753cf] to-[#008ae9]
-w-full md:mb-5" />
+      <FeatureProperty />
+      <div
+        className="h-5 mt-6 md:mt-12 md:p-6  bg-gradient-to-r from-[#0753cf] to-[#008ae9]
+w-full md:mb-5"
+      />
       {/* Premium Properties */}
 
-      <PremiumProperties/>
-
-     
+      <PremiumProperties />
     </div>
   );
 };

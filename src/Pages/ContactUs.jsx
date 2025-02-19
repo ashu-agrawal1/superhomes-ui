@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import React, { useState } from "react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
   return (
@@ -20,7 +20,8 @@ export default function ContactUs() {
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">Contact Us</h1>
           <p className="text-lg text-gray-600 mb-12">
-            Get in touch with us. We're here to help and answer any questions you might have.
+            Get in touch with us. We're here to help and answer any questions
+            you might have.
           </p>
         </div>
 
@@ -33,21 +34,28 @@ export default function ContactUs() {
                 <Mail className="w-6 h-6 text-blue-600" />
                 <div>
                   <p className="text-gray-600">Email</p>
-                  <p className="font-medium">support@example.com</p>
+                  <p className="font-medium">contact@superhomess.com</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-blue-600" />
                 <div>
                   <p className="text-gray-600">Phone</p>
-                  <p className="font-medium">+1 (555) 123-4567</p>
+                  <p className="font-medium">+91 9301696266</p>
+                  <p className="font-medium">+91 7509972213</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <MapPin className="w-6 h-6 text-blue-600" />
                 <div>
                   <p className="text-gray-600">Address</p>
-                  <p className="font-medium">123 Business Street, Suite 100<br />New York, NY 10001</p>
+                  <p className="font-medium">
+                    A-402 ,Narmada Avenue, Gorakhpur
+                    <br />
+                    Jabalpur, Madhya Pradesh, India
+                    <br />
+                    482001
+                  </p>
                 </div>
               </div>
             </div>
@@ -58,39 +66,54 @@ export default function ContactUs() {
             <h2 className="text-2xl font-semibold mb-6">Send us a Message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Name
                 </label>
                 <input
                   type="text"
                   id="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Message
                 </label>
                 <textarea
                   id="message"
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
                   rows="4"
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required

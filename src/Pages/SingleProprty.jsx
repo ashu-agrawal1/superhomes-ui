@@ -1,85 +1,97 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useParams, useNavigate, Link } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { FaStar, FaCheckCircle, FaUser, FaBed, FaBath } from "react-icons/fa"
-import { MdClose } from "react-icons/md"
-import { fetchPropertyById } from "../Redux/propertySlice"
+import { useState, useEffect } from "react";
+import moment from "moment";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { FaStar, FaCheckCircle, FaUser, FaBed, FaBath } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
+import { fetchPropertyById } from "../Redux/propertySlice";
 import {
   fetchPropertyAvailabilityById,
   addPropertyAvailability,
   checkBookingConflicts,
-} from "../Redux/CheckAvailibility"
-import { createRazorpayOrder, updatePaymentStatus, validatePayment } from "../Redux/PaymentSlice"
-import { StackedCarousel } from "../components/Carosal2"
-import Testimonials2 from './Testimonials2'
-import Spinner from "../components/Spinner"
-import Header2 from "../components/Header2"
-import toast from "react-hot-toast"
-import logo from "../assets/ICON-GOLDEN.png"
-import typo from "../assets/TYPO-GOLDEN.png"
-import Footer from '../components/Footer2'
+} from "../Redux/CheckAvailibility";
+import {
+  createRazorpayOrder,
+  updatePaymentStatus,
+  validatePayment,
+} from "../Redux/PaymentSlice";
+import { StackedCarousel } from "../components/Carosal2";
+import Testimonials2 from "./Testimonials2";
+import Spinner from "../components/Spinner";
+import Header2 from "../components/Header2";
+import toast from "react-hot-toast";
+import logo from "../assets/ICON-GOLDEN.png";
+import typo from "../assets/TYPO-GOLDEN.png";
+import Footer from "../components/Footer2";
+import DatePicker from "react-datepicker";
 const calculateExtraGuestCharges = (guests, maxGuests, basePrice) => {
-  if (guests <= maxGuests) return basePrice
-  const extraGuests = guests - maxGuests
-  const extraCharges = extraGuests * 500
-  return basePrice + extraCharges
-}
+  if (guests <= maxGuests) return basePrice;
+  const extraGuests = guests - maxGuests;
+  const extraCharges = extraGuests * 500;
+  return basePrice + extraCharges;
+};
 
 const shuffleArray = (array) => {
-  if (!array) return []
-  const shuffled = [...array]
+  if (!array) return [];
+  const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return shuffled
-}
+  return shuffled;
+};
 
 export default function SingleProperty() {
-  const { propertyId } = useParams()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { user } = useSelector((state) => state.auth)
-  const { property, loading, error } = useSelector((state) => state.property)
-  const { availability, status } = useSelector((state) => state.propertyAvailability)
+  const { propertyId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { property, loading, error } = useSelector((state) => state.property);
+  const { availability, status } = useSelector(
+    (state) => state.propertyAvailability
+  );
 
-  const [showModal, setShowModal] = useState(false)
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false)
-  const [unavailableDates, setUnavailableDates] = useState([])
+  const [showModal, setShowModal] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [unavailableDates, setUnavailableDates] = useState([]);
   const [newAvailability, setNewAvailability] = useState({
     start_date: "",
     end_date: "",
-  })
-  const [numberOfGuests, setNumberOfGuests] = useState(2)
+  });
+  const [totalNights, setTotalNights] = useState(0);
+  const [baseRent, setBaseRent] = useState(0);
+  const [totalRent, setTotalRent] = useState(0);
+
+  const [numberOfGuests, setNumberOfGuests] = useState(2);
 
   const checkAvailability = async () => {
     if (!newAvailability.start_date || !newAvailability.end_date) {
-      toast.error("Please select both check-in and check-out dates")
-      return false
+      toast.error("Please select both check-in and check-out dates");
+      return false;
     }
 
-    const selectedStartDate = new Date(newAvailability.start_date)
-    const selectedEndDate = new Date(newAvailability.end_date)
+    const selectedStartDate = new Date(newAvailability.start_date);
+    const selectedEndDate = new Date(newAvailability.end_date);
 
     // Check if dates are in the past
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     if (selectedStartDate < today) {
-      toast.error("Check-in date cannot be in the past")
-      return false
+      toast.error("Check-in date cannot be in the past");
+      return false;
     }
 
     if (selectedEndDate < today) {
-      toast.error("Check-out date cannot be in the past")
-      return false
+      toast.error("Check-out date cannot be in the past");
+      return false;
     }
 
     if (selectedEndDate <= selectedStartDate) {
-      toast.error("Check-out date must be after check-in date")
-      return false
+      toast.error("Check-out date must be after check-in date");
+      return false;
     }
 
     try {
@@ -88,42 +100,55 @@ export default function SingleProperty() {
           selectedStartDate,
           selectedEndDate,
           propertyId,
-        }),
-      ).unwrap()
+        })
+      ).unwrap();
 
       if (hasConflict) {
-        toast.error("Selected dates are not available")
-        return false
+        toast.error("Selected dates are not available");
+        return false;
       }
-      return true
+      return true;
     } catch (error) {
-      console.error("Error checking availability:", error)
-      toast.error("Error checking availability")
-      return false
+      console.error("Error checking availability:", error);
+      toast.error("Error checking availability");
+      return false;
     }
-  }
+  };
 
   const handleReserve = async () => {
     if (!user) {
-      toast.error("Please login to make a reservation")
-      navigate("/login")
-      return
+      toast.error("Please login to make a reservation");
+      navigate("/login");
+      return;
     }
 
-    if (!newAvailability.start_date || !newAvailability.end_date || numberOfGuests <= 0) {
-      toast.error("Please fill out all fields.")
-      return
+    if (
+      !newAvailability.start_date ||
+      !newAvailability.end_date ||
+      numberOfGuests <= 0
+    ) {
+      toast.error("Please fill out all fields.");
+      return;
     }
-
     // Check availability before proceeding
-    const isAvailable = await checkAvailability()
+    const isAvailable = await checkAvailability();
     if (!isAvailable) {
-      return
+      return;
     }
 
     try {
-      const finalAmount = calculateExtraGuestCharges(numberOfGuests, property.max_guests, property.price * 1.15)
+      const numberOfNights = Math.ceil(
+        (new Date(newAvailability.end_date) -
+          new Date(newAvailability.start_date)) /
+          (1000 * 60 * 60 * 24)
+      );
 
+      let amount = calculateExtraGuestCharges(
+        numberOfGuests,
+        property.max_guests,
+        property.price * 1.15
+      );
+      const finalAmount = amount * +numberOfNights;
       const orderData = {
         amount: finalAmount,
         currency: "INR",
@@ -133,12 +158,12 @@ export default function SingleProperty() {
         start_date: newAvailability.start_date,
         end_date: newAvailability.end_date,
         guest: numberOfGuests,
-      }
+      };
 
-      const order = await dispatch(createRazorpayOrder(orderData)).unwrap()
+      const order = await dispatch(createRazorpayOrder(orderData)).unwrap();
       if (!order || !order.id) {
-        toast.error("Failed to create Razorpay order")
-        return
+        toast.error("Failed to create Razorpay order");
+        return;
       }
 
       const razorpayOptions = {
@@ -162,12 +187,14 @@ export default function SingleProperty() {
               start_date: newAvailability.start_date,
               end_date: newAvailability.end_date,
               guest: numberOfGuests,
-            }
+            };
 
-            const validationResponse = await dispatch(validatePayment(paymentData)).unwrap()
+            const validationResponse = await dispatch(
+              validatePayment(paymentData)
+            ).unwrap();
 
             if (validationResponse?.status === "success") {
-              await dispatch(updatePaymentStatus({ status: "success" }))
+              await dispatch(updatePaymentStatus({ status: "success" }));
 
               const reservationData = {
                 property_id: propertyId,
@@ -178,14 +205,21 @@ export default function SingleProperty() {
                 is_booked: 1,
                 guest: numberOfGuests,
                 payment_id: response.razorpay_payment_id,
-              }
-              await dispatch(addPropertyAvailability(reservationData))
+              };
+              await dispatch(addPropertyAvailability(reservationData));
             } else {
-              console.log(validationResponse?.msg || "Payment validation failed.")
+              console.log(
+                validationResponse?.msg || "Payment validation failed."
+              );
             }
           } catch (error) {
-            console.error("Error during payment validation or saving reservation:", error)
-            toast.error("There was an issue validating the payment or saving the reservation. Please contact support.")
+            console.error(
+              "Error during payment validation or saving reservation:",
+              error
+            );
+            toast.error(
+              "There was an issue validating the payment or saving the reservation. Please contact support."
+            );
           }
         },
         prefill: {
@@ -196,56 +230,81 @@ export default function SingleProperty() {
         theme: {
           color: "#3399cc",
         },
-      }
+      };
 
-      const razorpay = new window.Razorpay(razorpayOptions)
+      const razorpay = new window.Razorpay(razorpayOptions);
 
       razorpay.on("payment.failed", (response) => {
-        toast.error(`Payment failed: ${response.error.description}`)
+        toast.error(`Payment failed: ${response.error.description}`);
         dispatch(
           updatePaymentStatus({
             status: "failed",
             error: response.error.description,
-          }),
-        )
-      })
+          })
+        );
+      });
 
-      razorpay.open()
+      razorpay.open();
     } catch (error) {
-      console.error("Error during reservation process:", error)
-      toast.error("Error creating payment order. Please try again.")
+      console.error("Error during reservation process:", error);
+      toast.error("Error creating payment order. Please try again.");
     }
-  }
+  };
 
   useEffect(() => {
+    const basePrice = property?.price || 0;
+    const startDate = new Date(newAvailability.start_date);
+    const endDate = new Date(newAvailability.end_date);
+    const nights = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+    setTotalNights(nights || 0);
+
+    // Rent calculation for the stay
+    const extraGuestCharges =
+      numberOfGuests > property?.max_guests
+        ? (numberOfGuests - property?.max_guests) * 500
+        : 0;
+    // Apply platform charge only once (15%)
+    setBaseRent((basePrice + extraGuestCharges) * nights || 0);
+    setTotalRent((basePrice + extraGuestCharges) * nights * 1.15 || 0);
+  }, [newAvailability, numberOfGuests]);
+  useEffect(() => {
     if (propertyId) {
-      dispatch(fetchPropertyById(propertyId))
-      dispatch(fetchPropertyAvailabilityById(propertyId))
+      dispatch(fetchPropertyById(propertyId));
+      dispatch(fetchPropertyAvailabilityById(propertyId));
     }
-  }, [dispatch, propertyId])
+  }, [dispatch, propertyId]);
 
   useEffect(() => {
     const loadRazorpayScript = () => {
-      if (!document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]')) {
-        const script = document.createElement("script")
-        script.src = "https://checkout.razorpay.com/v1/checkout.js"
-        script.async = true
-        script.onload = () => console.log("Razorpay script loaded")
-        script.onerror = () => console.error("Failed to load Razorpay script")
-        document.body.appendChild(script)
+      if (
+        !document.querySelector(
+          'script[src="https://checkout.razorpay.com/v1/checkout.js"]'
+        )
+      ) {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.async = true;
+        script.onload = () => console.log("Razorpay script loaded");
+        script.onerror = () => console.error("Failed to load Razorpay script");
+        document.body.appendChild(script);
       }
-    }
-    loadRazorpayScript()
-  }, [])
+    };
+    loadRazorpayScript();
+  }, []);
 
-  if (loading) return <Spinner />
+  if (loading) return <Spinner />;
   if (error)
     return (
       <div className="container mx-auto px-4 py-8 text-center text-red-600">
         Error fetching property: {error.message || error}
       </div>
-    )
-  if (!property) return <div className="container mx-auto px-4 py-8 text-center">Property not found</div>
+    );
+  if (!property)
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        Property not found
+      </div>
+    );
 
   return (
     <>
@@ -256,38 +315,46 @@ export default function SingleProperty() {
           <div className="w-full px-4 py-8 md:container md:mx-auto md:max-w-7xl">
             {/* carosal section */}
             <div className="mb-8 relative mt-6 p-6">
-              <StackedCarousel images={property?.images?.map((img) => img.url) || []} />
+              <StackedCarousel
+                images={property?.images?.map((img) => img.url) || []}
+              />
             </div>
             {/* tile description  */}
             <div>
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-6 md:mt-10 gap-2">
-  <h1 className="text-2xl md:text-3xl text-gray-800  font-bold">
-    {property.title || "Earthen home in Mueang Chiang Mai District, Thailand"}
-  </h1>
-  <div className="flex items-center gap-2">
-    <FaStar className="text-gray-700" />
-    <span className="font-semibold">{property.rating || "4.3"}</span>
-    <span className="text-gray-600">({property.reviewCount || "433"} reviews)</span>
-  </div>
-</div>
-
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-6 md:mt-10 gap-2">
+                <h1 className="text-2xl md:text-3xl text-gray-800  font-bold">
+                  {property.title ||
+                    "Earthen home in Mueang Chiang Mai District, Thailand"}
+                </h1>
+                <div className="flex items-center gap-2">
+                  <FaStar className="text-gray-700" />
+                  <span className="font-semibold">
+                    {property.rating || "4.3"}
+                  </span>
+                  <span className="text-gray-600">
+                    ({property.reviewCount || "433"} reviews)
+                  </span>
+                </div>
+              </div>
 
               <div className="flex flex-col md:flex-row justify-between items-start">
                 <div className="flex flex-col md:flex-row md:flex-wrap items-start md:items-center gap-2 md:gap-4 text-base md:text-lg mb-4">
                   <span className="flex items-center gap-2 text-gray-800">
-                    <FaUser className="text-gray-800" /> {property.max_guests || 1} guests
+                    <FaUser className="text-gray-800" />{" "}
+                    {property.max_guests || 1} guests
                   </span>
                   <span className="flex items-center gap-2 text-gray-800">
-                    <FaBed className="text-gray-800" /> {property.bedrooms || 1} bedroom
+                    <FaBed className="text-gray-800" /> {property.bedrooms || 1}{" "}
+                    bedroom
                   </span>
                   {/* <span className="flex items-center gap-2">
                     <FaBed /> {property.beds || 2} beds
                   </span> */}
                   <span className="flex items-center gap-2 text-gray-800">
-                    <FaBath className="text-gray-800"/> {property.bathrooms || 1} bathroom
+                    <FaBath className="text-gray-800" />{" "}
+                    {property.bathrooms || 1} bathroom
                   </span>
                 </div>
-               
               </div>
             </div>
             <div>
@@ -311,24 +378,38 @@ export default function SingleProperty() {
                   {/* Dates and Guests Section */}
                   <div className="w-full">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
-                      <div className="bg-gray-300 p-8 rounded-lg space-y-1">
-                        <div className="text-sm font-medium">Check-in</div>
-                        <input
-                          type="date"
-                          value={newAvailability.start_date}
-                          onChange={(e) => setNewAvailability({ ...newAvailability, start_date: e.target.value })}
-                          min={new Date().toISOString().split("T")[0]}
-                          className="text-lg lg:text-2xl font-bold bg-transparent w-full"
+                      <div className="relative bg-[#EAEAEA] border border-gray-300 rounded-md w-full sm:w-60 md:w-72 lg:w-56 h-28 flex flex-col justify-center items-center">
+                        <label className="absolute text-gray-500 font-bold lg:left-8 left-1/2 lg:translate-x-0 -translate-x-1/2 top-8">
+                          Check In
+                        </label>
+                        <DatePicker
+                          minDate={moment().format("YYYY-MM-DD")}
+                          onChange={(date) =>
+                            setNewAvailability({
+                              ...newAvailability,
+                              start_date: date,
+                            })
+                          }
+                          selected={newAvailability.start_date}
+                          placeholderText="Select Check-In Date"
+                          className="bg-transparent border-none outline-none w-full h-full p-4 pt-12 text-center lg:text-left lg:pl-8"
                         />
                       </div>
-                      <div className="bg-gray-300 p-8 rounded-lg space-y-1">
-                        <div className="text-sm font-medium">Check-out</div>
-                        <input
-                          type="date"
-                          value={newAvailability.end_date}
-                          onChange={(e) => setNewAvailability({ ...newAvailability, end_date: e.target.value })}
-                          min={new Date().toISOString().split("T")[0]}
-                          className="text-lg lg:text-2xl font-bold bg-transparent w-full"
+                      <div className="relative bg-[#EAEAEA] border border-gray-300 rounded-md w-full sm:w-60 md:w-72 lg:w-56 h-28 flex flex-col justify-center items-center">
+                        <label className="absolute text-gray-500 font-bold lg:left-8 left-1/2 lg:translate-x-0 -translate-x-1/2 top-8">
+                          Check Out
+                        </label>
+                        <DatePicker
+                          minDate={moment().format("YYYY-MM-DD")}
+                          onChange={(date) =>
+                            setNewAvailability({
+                              ...newAvailability,
+                              end_date: date,
+                            })
+                          }
+                          selected={newAvailability.end_date}
+                          placeholderText="Select Check-Out Date"
+                          className="bg-transparent border-none outline-none w-full h-full p-4 pt-12 text-center lg:text-left lg:pl-8"
                         />
                       </div>
                     </div>
@@ -337,7 +418,9 @@ export default function SingleProperty() {
                       <input
                         type="number"
                         value={numberOfGuests}
-                        onChange={(e) => setNumberOfGuests(Number.parseInt(e.target.value))}
+                        onChange={(e) =>
+                          setNumberOfGuests(Number.parseInt(e.target.value))
+                        }
                         min="1"
                         max={property.guests || 14}
                         className="text-lg lg:text-2xl font-bold bg-transparent w-full"
@@ -347,58 +430,52 @@ export default function SingleProperty() {
 
                   {/* Price Breakdown */}
                   <div className="w-full lg:w-[200px]">
-  <div className="space-y-2">
-    <div className="flex justify-between items-center">
-      <span className="text-sm">Rent</span>
-      <span className="font-medium">₹{property.price || 66799}</span>
-    </div>
-    <div className="flex justify-between items-center">
-      <span className="text-sm">Platform Charge</span>
-      <span className="font-medium">15%</span>
-    </div>
-    <div className="h-px bg-gray-300 my-2" />
-    <div className="flex justify-between items-center">
-      <span className="text-sm">Charge per night</span>
-      <span className="font-medium">
-        ₹{property.price || 66799}
-      </span>
-    </div>
-    <div className="flex justify-between items-center text-base lg:text-lg font-bold">
-      <span className="text-gray-800">TOTAL</span>
-      <span className="text-gray-800">
-        ₹{(() => {
-          const basePrice = property.price || 0;
-          const startDate = new Date(newAvailability.start_date);
-          const endDate = new Date(newAvailability.end_date);
-          const numberOfNights = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)); // Calculate number of nights
-          
-          // Rent calculation for the stay
-          const totalRent = basePrice * numberOfNights;
-          
-          // Apply platform charge only once (15% of the rent, not per night)
-          const platformCharge = totalRent * 0.15;
-          
-          // Extra guest charges (if applicable)
-          const extraGuestCharges =
-            numberOfGuests > property.max_guests
-              ? (numberOfGuests - property.max_guests) * 500 * numberOfNights // Extra charges for guests exceeding max allowed
-              : 0;
-
-          // Final total
-          return (totalRent + platformCharge + extraGuestCharges).toFixed(2);
-        })()}
-      </span>
-    </div>
-    {numberOfGuests > property.max_guests && (
-      <div className="text-sm text-green-500 mt-2">
-        *Includes ₹{((numberOfGuests - property.max_guests) * 500 * Math.ceil((new Date(newAvailability.end_date) - new Date(newAvailability.start_date)) / (1000 * 60 * 60 * 24))).toFixed(2)} for{" "}
-        {numberOfGuests - property.max_guests} extra guest(s)
-      </div>
-    )}
-  </div>
-</div>
-
-
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Rent</span>
+                        <span className="font-medium">
+                          ₹{property.price || 0}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Nights</span>
+                        <span className="font-medium">{totalNights}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Service Fee</span>
+                        <span className="font-medium">
+                          {(totalRent - baseRent).toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="h-px bg-gray-300 my-2" />
+                      {/* <div className="flex justify-between items-center">
+                        <span className="text-sm">Charge per night</span>
+                        <span className="font-medium">₹{property.price}</span>
+                      </div> */}
+                      <div className="flex justify-between items-center text-base lg:text-lg font-bold">
+                        <span className="text-gray-800">TOTAL</span>
+                        <span className="text-gray-800">
+                          ₹{totalRent.toFixed(2)}
+                        </span>
+                      </div>
+                      {numberOfGuests > property.max_guests && (
+                        <div className="text-sm text-green-500 mt-2">
+                          *Includes ₹
+                          {(
+                            (numberOfGuests - property.max_guests) *
+                            500 *
+                            Math.ceil(
+                              (new Date(newAvailability.end_date) -
+                                new Date(newAvailability.start_date)) /
+                                (1000 * 60 * 60 * 24)
+                            )
+                          ).toFixed(2)}{" "}
+                          for {numberOfGuests - property.max_guests} extra
+                          guest(s)
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <button
@@ -446,7 +523,9 @@ export default function SingleProperty() {
 
                   {/* amenities */}
                   <div className="text-gray-800">
-                    <h2 className="w-full text-center text-2xl md:text-4xl font-bold md:p-4 md:m-5 mb-2 text-gray-800">WHAT YOU CAN EXPERIENCE</h2>
+                    <h2 className="w-full text-center text-2xl md:text-4xl font-bold md:p-4 md:m-5 mb-2 text-gray-800">
+                      WHAT YOU CAN EXPERIENCE
+                    </h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                       {property.amenities?.map((amenity, index) => (
                         <div key={index} className="flex items-center gap-2">
@@ -462,10 +541,10 @@ export default function SingleProperty() {
           </div>
         </main>
 
-      <Testimonials2/>
+        <Testimonials2 />
 
         {/* Footer */}
-        <Footer/>
+        <Footer />
       </div>
 
       {/* Modals */}
@@ -475,7 +554,10 @@ export default function SingleProperty() {
             <div className="p-4 border-b">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">All Amenities</h2>
-                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
                   <MdClose className="w-6 h-6" />
                 </button>
               </div>
@@ -500,7 +582,10 @@ export default function SingleProperty() {
             <div className="p-4 border-b">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">All Photos</h2>
-                <button onClick={() => setIsImageModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                <button
+                  onClick={() => setIsImageModalOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
                   <MdClose className="w-6 h-6" />
                 </button>
               </div>
@@ -508,7 +593,10 @@ export default function SingleProperty() {
             <div className="p-4 overflow-y-auto max-h-[calc(90vh-100px)]">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {property?.images?.map((image, index) => (
-                  <div key={index} className="aspect-[4/3] relative rounded-lg overflow-hidden cursor-pointer">
+                  <div
+                    key={index}
+                    className="aspect-[4/3] relative rounded-lg overflow-hidden cursor-pointer"
+                  >
                     <img
                       loading="lazy"
                       src={image.url || "/placeholder.svg"}
@@ -523,6 +611,5 @@ export default function SingleProperty() {
         </div>
       )}
     </>
-  )
+  );
 }
-
