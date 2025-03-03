@@ -22,10 +22,10 @@ const moveRightAnimation = keyframes`
     transform: translateX(0%);
   }
 `;
-
+// this is css for card
 const TestimonialCard = styled.div`
   width: 300px;
-  background: #3b82f6;
+  background: #ededed;
   color: white;
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -187,7 +187,7 @@ const TestimonialsSection = () => {
         <span className="italic text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-500 text-3xl md:text-6xl font-semibold">
           OUR
         </span>
-        <span className="text-4xl md:text-8xl font-bold text-gray-800">
+        <span className="text-4xl md:text-8xl font-bold text-[#292929]">
           TESTIMONIALS
         </span>
       </div>

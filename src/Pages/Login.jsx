@@ -1,25 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../Redux/AuthSlice';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { ChromeIcon as Google, Apple, Facebook, Eye, EyeOff } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../Redux/AuthSlice";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import {
+  ChromeIcon as Google,
+  Apple,
+  Facebook,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import HeaderLogin from "../components/HeaderLogin";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, loading, error } = useSelector((state) => state.auth);
+  const { isAuthenticated, loading, error } = useSelector(
+    (state) => state.auth
+  );
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
@@ -34,36 +43,47 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      {/* <Header /> */}
+      <HeaderLogin />
 
-      <div className="max-w-4xl mx-auto p-8 bg-gray-200">
-        <h2 className="text-center text-5xl font-bold text-gray-900 mb-6">LOGIN</h2>
+      <div className="max-w-4xl mx-auto p-8 bg-[#EDEDED] mt-8 rounded-sm">
+        <h2 className="text-center text-5xl font-bold text-[#292929] mb-6">
+          LOGIN
+        </h2>
 
-        {error && <p className="text-red-500 text-center mb-4">{error.message || JSON.stringify(error)}</p>}
+        {error && (
+          <p className="text-red-500 text-center mb-4">
+            {error.message || JSON.stringify(error)}
+          </p>
+        )}
 
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email" className="block font-medium">EMAIL*</label>
+            <label htmlFor="email" className="block font-medium">
+              EMAIL*
+            </label>
             <input
               id="email"
               name="email"
               type="text"
               required
-              className="w-full border border-gray-300 bg-gray-100 p-3 rounded-md"
+              className="w-full p-3 rounded-md bg-[#E5E5E5]"
               placeholder="Enter your email"
               onChange={handleChange}
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block font-medium">PASSWORD*</label>
+            <label htmlFor="password" className="block font-medium">
+              PASSWORD*
+            </label>
             <div className="relative">
               <input
                 id="password"
                 name="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 required
-                className="w-full border border-gray-300 bg-gray-100 p-3 rounded-md pr-10"
+                className="w-full p-3 rounded-md bg-[#E5E5E5]"
                 placeholder="Enter your password"
                 onChange={handleChange}
               />
@@ -72,7 +92,11 @@ const Login = () => {
                 className="absolute inset-y-0 right-3 flex items-center"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {!showPassword ? <EyeOff className="h-5 w-5 text-gray-600" /> : <Eye className="h-5 w-5 text-gray-600" />}
+                {!showPassword ? (
+                  <EyeOff className="h-5 w-5 text-gray-600" />
+                ) : (
+                  <Eye className="h-5 w-5 text-gray-600" />
+                )}
               </button>
             </div>
           </div>
@@ -85,12 +109,18 @@ const Login = () => {
                 type="checkbox"
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-[#292929]"
+              >
                 Remember me
               </label>
             </div>
             <div className="text-sm">
-              <Link to='/forgetPassword' className="font-medium text-blue-600 hover:text-blue-500">
+              <Link
+                to="/forgetPassword"
+                className="font-medium text-blue-600 hover:text-blue-500"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -100,9 +130,9 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white font-medium py-3 rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="w-full bg-[#0044c1] text-white font-medium py-3 rounded-md disabled:opacity-50"
             >
-              {loading ? 'Logging in...' : 'LOGIN'}
+              {loading ? "Logging in..." : "LOGIN"}
             </button>
           </div>
         </form>
@@ -118,6 +148,15 @@ const Login = () => {
             <Facebook className="h-5 w-5 text-gray-600" />
           </button>
         </div> */}
+        <span className="ml-2 block text-sm text-[#292929] text-center mt-4">
+          Didn't have a account?{" "}
+          <a
+            href="/register"
+            className="font-medium text-blue-600 hover:text-blue-500 text-center"
+          >
+            Register here
+          </a>
+        </span>
       </div>
 
       <br />

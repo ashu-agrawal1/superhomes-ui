@@ -25,6 +25,7 @@ import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsAndConditions from "./Pages/TermsAndCondition";
 import ResetPassword from "./Pages/ResetPassword";
 import ForgetPasword from "./Pages/ForgetPassword";
+import AboutUs from "./Pages/AboutUs";
 function App() {
   return (
     <div>
@@ -48,6 +49,7 @@ function App() {
         <Route path="/carosal2" element={<Carosal2 />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/forgetPassword" element={<ForgetPasword />} />

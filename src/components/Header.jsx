@@ -26,7 +26,7 @@ export default function Header() {
         {/* Left - Hamburger Menu */}
         <div className="relative z-20 flex justify-start items-center">
           <FaBars
-            className="text-2xl md:text-3xl cursor-pointer text-gray-800 hover:opacity-80 transition-opacity"
+            className="text-2xl md:text-3xl cursor-pointer text-[#292929] hover:opacity-80 transition-opacity"
             onClick={toggleDropdown}
           />
 
@@ -103,11 +103,11 @@ export default function Header() {
         {/* Right - User Section */}
         <div className="flex justify-end items-center gap-2 md:gap-4 z-20">
           {isAuthenticated && user && (
-            <p className="text-sm md:text-base hidden sm:block truncate max-w-[150px] relative ">
-              {user.name}
+            <p className="text-sm md:text-base hidden sm:block truncate relative font-semibold">
+              Welcome, {user.name}
             </p>
           )}
-          <FaUserCircle className="text-2xl md:text-3xl text-gray-800 cursor-pointer hover:opacity-80 transition-opacity" />
+          <FaUserCircle className="text-2xl md:text-3xl text-[#292929] cursor-pointer hover:opacity-80 transition-opacity" />
         </div>
         <div className="w-full">
           <img

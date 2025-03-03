@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchProperties, createProperty, updateProperty, deleteProperty } from "../Redux/propertySlice"
-import { Link } from "react-router-dom"
-import { Trash2, Edit, Menu, X } from "lucide-react"
-import { FaUser } from "react-icons/fa"
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProperties,
+  createProperty,
+  updateProperty,
+  deleteProperty,
+} from "../Redux/propertySlice";
+import { Link } from "react-router-dom";
+import { Trash2, Edit, Menu, X } from "lucide-react";
+import { FaUser } from "react-icons/fa";
+import HeaderDashboard from "./HeaderDashboard";
 const Dashboard = () => {
   const predefinedAmenities = [
     "Hot water",
@@ -21,7 +27,7 @@ const Dashboard = () => {
     "Kitchen",
     "Parking",
     "Pets allowed",
-  ]
+  ];
 
   const [formData, setFormData] = useState({
     id: null,
@@ -37,16 +43,17 @@ const Dashboard = () => {
     customAmenities: "",
     max_guests: "",
     beds: "", // Added beds to formData
-  })
+  });
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const dispatch = useDispatch()
-  const { loading, error, properties, premiumProperties, regularProperties } = useSelector((state) => state.property)
+  const dispatch = useDispatch();
+  const { loading, error, properties, premiumProperties, regularProperties } =
+    useSelector((state) => state.property);
 
   useEffect(() => {
-    dispatch(fetchProperties())
-  }, [dispatch])
+    dispatch(fetchProperties());
+  }, [dispatch]);
 
   const handleEdit = (property) => {
     setFormData({
@@ -63,45 +70,53 @@ const Dashboard = () => {
       customAmenities: "",
       max_guests: property.max_guests || "",
       beds: property.beds || "", // Added beds to handleEdit
-    })
+    });
 
     // Scroll to editing area
-    document.querySelector("#editing-area").scrollIntoView({ behavior: "smooth" })
-  }
+    document
+      .querySelector("#editing-area")
+      .scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleDelete = (propertyId) => {
-    if (window.confirm("Are you sure you want to delete this property? This action cannot be undone.")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this property? This action cannot be undone."
+      )
+    ) {
       dispatch(deleteProperty(propertyId)).then((response) => {
         if (response.meta.requestStatus === "fulfilled") {
-          dispatch(fetchProperties())
+          dispatch(fetchProperties());
         }
-      })
+      });
     }
-  }
+  };
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target
+    const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
-    }))
-  }
+    }));
+  };
 
   const handleAmenityChange = (e) => {
-    const { value, checked } = e.target
+    const { value, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      amenities: checked ? [...prevData.amenities, value] : prevData.amenities.filter((amenity) => amenity !== value),
-    }))
-  }
+      amenities: checked
+        ? [...prevData.amenities, value]
+        : prevData.amenities.filter((amenity) => amenity !== value),
+    }));
+  };
 
   const handleCustomAmenityChange = (e) => {
-    const { value } = e.target
+    const { value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       customAmenities: value,
-    }))
-  }
+    }));
+  };
 
   const handleAddCustomAmenity = () => {
     if (formData.customAmenities.trim() !== "") {
@@ -109,34 +124,44 @@ const Dashboard = () => {
         ...prevData,
         amenities: [...prevData.amenities, formData.customAmenities.trim()],
         customAmenities: "",
-      }))
+      }));
     } else {
-      alert("Please enter a valid custom amenity")
+      alert("Please enter a valid custom amenity");
     }
-  }
+  };
 
   const handleFileChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
       imageFiles: [...e.target.files],
-    }))
-  }
+    }));
+  };
 
   const validateForm = () => {
-    const requiredFields = ["title", "description", "price", "location", "beds"] // Added beds to requiredFields
-    const missingFields = requiredFields.filter((field) => !formData[field])
+    const requiredFields = [
+      "title",
+      "description",
+      "price",
+      "location",
+      "beds",
+    ]; // Added beds to requiredFields
+    const missingFields = requiredFields.filter((field) => !formData[field]);
 
     if (missingFields.length > 0) {
-      alert(`Please fill in the following required fields: ${missingFields.join(", ")}`)
-      return false
+      alert(
+        `Please fill in the following required fields: ${missingFields.join(
+          ", "
+        )}`
+      );
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   const handlePublish = () => {
-    if (!validateForm()) return
+    if (!validateForm()) return;
 
-    const action = formData.id ? updateProperty : createProperty
+    const action = formData.id ? updateProperty : createProperty;
 
     dispatch(action(formData)).then((response) => {
       if (response.meta.requestStatus === "fulfilled") {
@@ -154,11 +179,11 @@ const Dashboard = () => {
           customAmenities: "",
           max_guests: "",
           beds: "", // Added beds to setFormData
-        })
-        dispatch(fetchProperties())
+        });
+        dispatch(fetchProperties());
       }
-    })
-  }
+    });
+  };
 
   const handleCancel = () => {
     setFormData({
@@ -175,60 +200,38 @@ const Dashboard = () => {
       customAmenities: "",
       max_guests: "",
       beds: "", // Added beds to handleCancel
-    })
-  }
+    });
+  };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="min-h-screen flex items-center justify-center">Error: {error}</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Error: {error}
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* <Toaster position="top-right" /> */}
-      <header className="bg-blue-600 p-4 text-white font-bold text-2xl flex justify-between items-center">
-        <FaUser />
-        <h1 className="text-center flex-1">Admin Dashboard</h1>
-        <div className="flex items-center gap-4">
-          <Link to="/" className="text-white font-semibold text-xl hidden md:block">
-            Home
-          </Link>
-          <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-      </header>
-
-      <nav className="bg-blue-700 text-white">
-        <div className="container mx-auto px-4">
-          <div
-            className={`flex flex-col md:flex-row justify-center py-2 ${isMobileMenuOpen ? "block" : "hidden md:flex"}`}
-          >
-            <Link to="/dashboard" className="hover:underline py-2 md:px-2">
-              Dashboard
-            </Link>
-            <Link to="/upcoming-bookings" className="hover:underline py-2 md:px-2">
-              Upcoming Bookings
-            </Link>
-            <Link to="/todays-bookings" className="hover:underline font-bold py-2 md:px-2">
-              Today's Bookings
-            </Link>
-            <Link to="/calendar" className="hover:underline py-2 md:px-2">
-              Calendar
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <HeaderDashboard />
 
       <main className="p-6 space-y-12">
         <section>
           <h2 className="text-xl font-semibold mb-4">Premium Listings</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {premiumProperties?.map((property) => (
-              <div key={property.id} className="bg-white shadow-md rounded-lg p-4 space-y-2">
+              <div
+                key={property.id}
+                className="bg-white shadow-md rounded-lg p-4 space-y-2"
+              >
                 <div className="h-40 bg-gray-300 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
                   <img
                     src={property.images?.[0]?.url || "/placeholder.jpg"}
@@ -240,11 +243,15 @@ const Dashboard = () => {
                   Premium
                 </div>
                 <h3 className="font-bold text-lg">{property.title}</h3>
-                <p className="text-sm text-gray-600">Location: {property.location}</p>
-                <p className="text-sm text-gray-600">Price: ₹{property.price}</p>
                 <p className="text-sm text-gray-600">
-                  {property.bedrooms} Bedrooms • {property.bathrooms} Baths • {property.beds} Beds • Max Guests:{" "}
-                  {property.max_guests}
+                  Location: {property.location}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Price: ₹{property.price}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {property.bedrooms} Bedrooms • {property.bathrooms} Baths •{" "}
+                  {property.beds} Beds • Max Guests: {property.max_guests}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -271,7 +278,10 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold mb-4">Regular Listings</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {regularProperties?.map((property) => (
-              <div key={property.id} className="bg-white shadow-md rounded-lg p-4 space-y-2">
+              <div
+                key={property.id}
+                className="bg-white shadow-md rounded-lg p-4 space-y-2"
+              >
                 <div className="h-40 bg-gray-300 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
                   <img
                     src={property.images?.[0]?.url || "/placeholder.jpg"}
@@ -280,11 +290,15 @@ const Dashboard = () => {
                   />
                 </div>
                 <h3 className="font-bold text-lg">{property.title}</h3>
-                <p className="text-sm text-gray-600">Location: {property.location}</p>
-                <p className="text-sm text-gray-600">Price: ₹{property.price}</p>
                 <p className="text-sm text-gray-600">
-                  {property.bedrooms} Bedrooms • {property.bathrooms} Baths • {property.beds} Beds • Max Guests:{" "}
-                  {property.max_guests}
+                  Location: {property.location}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Price: ₹{property.price}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {property.bedrooms} Bedrooms • {property.bathrooms} Baths •{" "}
+                  {property.beds} Beds • Max Guests: {property.max_guests}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -308,7 +322,9 @@ const Dashboard = () => {
         </section>
 
         <section id="editing-area">
-          <h2 className="text-xl font-semibold mb-4">{formData.id ? "Edit Property" : "Add New Property"}</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            {formData.id ? "Edit Property" : "Add New Property"}
+          </h2>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <input
@@ -379,7 +395,10 @@ const Dashboard = () => {
                 <label className="block font-medium">Amenities</label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {predefinedAmenities.map((amenity) => (
-                    <label key={amenity} className="flex items-center space-x-2">
+                    <label
+                      key={amenity}
+                      className="flex items-center space-x-2"
+                    >
                       <input
                         type="checkbox"
                         value={amenity}
@@ -413,7 +432,10 @@ const Dashboard = () => {
                 {formData.amenities.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {formData.amenities.map((amenity) => (
-                      <span key={amenity} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                      <span
+                        key={amenity}
+                        className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                      >
                         {amenity}
                       </span>
                     ))}
@@ -442,7 +464,9 @@ const Dashboard = () => {
                   className="p-2 border rounded-md w-full"
                 />
                 {formData.imageFiles.length > 0 && (
-                  <p className="mt-2 text-sm text-gray-600">{formData.imageFiles.length} files selected</p>
+                  <p className="mt-2 text-sm text-gray-600">
+                    {formData.imageFiles.length} files selected
+                  </p>
                 )}
               </div>
             </div>
@@ -470,8 +494,7 @@ const Dashboard = () => {
         <p>© 2024 Admin Dashboard. All rights reserved.</p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
-
+export default Dashboard;

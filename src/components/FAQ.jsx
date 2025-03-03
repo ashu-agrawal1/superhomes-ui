@@ -99,7 +99,7 @@ const FAQ = () => {
         <span className="italic text-transparent bg-clip-text bg-gradient-to-b from-yellow-500 to-orange-500 text-3xl md:text-6xl font-semibold">
           HAVE
         </span>
-        <span className="text-4xl md:text-8xl font-bold text-gray-800">
+        <span className="text-4xl md:text-8xl font-bold text-[#292929]">
           {" "}
           QUESTIONS
         </span>

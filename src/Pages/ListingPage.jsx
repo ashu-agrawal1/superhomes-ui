@@ -93,7 +93,7 @@ const PropertyListing = () => {
               </div>
               <button
                 onClick={() => handleCardClick(property.id)}
-                className="mt-2 bg-blue-500 text-white py-2 px-3 sm:px-4 rounded-lg w-full hover:bg-blue-600 transition-colors text-sm sm:text-base"
+                className="mt-2 bg-[#0044C1] text-white py-2 px-3 sm:px-4 rounded-lg w-full transition-colors text-sm sm:text-base"
               >
                 Book Now
               </button>

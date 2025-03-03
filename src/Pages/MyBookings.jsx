@@ -26,7 +26,7 @@ export default function MyBookings() {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-8 text-gray-900">My Bookings</h1>
+          <h1 className="text-3xl font-bold mb-8 text-[#292929]">My Bookings</h1>
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <p className="text-gray-600">No bookings found</p>
           </div>
@@ -38,7 +38,7 @@ export default function MyBookings() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900">My Bookings</h1>
+        <h1 className="text-3xl font-bold mb-8 text-[#292929]">My Bookings</h1>
         
         <div className="space-y-6">
           {reservations.map((booking) => (
@@ -54,7 +54,7 @@ export default function MyBookings() {
                       <Building className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900">
+                      <h2 className="text-xl font-bold text-[#292929]">
                         {booking.property_id ? `Luxury Stay #${booking.property_id}` : 'Booking Details'}
                       </h2>
                       <p className="text-sm text-gray-500">Booking ID: #{booking.id}</p>

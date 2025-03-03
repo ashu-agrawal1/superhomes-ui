@@ -155,8 +155,8 @@ export default function SingleProperty() {
         receipt: `receipt_${Date.now()}`,
         user_id: user.user_id,
         property_id: propertyId,
-        start_date: newAvailability.start_date,
-        end_date: newAvailability.end_date,
+        start_date: moment(newAvailability.start_date).format("YYYY-MM-DD"),
+        end_date: moment(newAvailability.end_date).format("YYYY-MM-DD"),
         guest: numberOfGuests,
       };
 
@@ -312,17 +312,17 @@ export default function SingleProperty() {
         <Header2 />
 
         <main className="flex-1">
-          <div className="w-full px-4 py-8 md:container md:mx-auto md:max-w-7xl">
+          <div className="w-full px-4 md:container md:mx-auto md:max-w-7xl">
             {/* carosal section */}
-            <div className="mb-8 relative mt-6 p-6">
+            <div className="relative">
               <StackedCarousel
                 images={property?.images?.map((img) => img.url) || []}
               />
             </div>
             {/* tile description  */}
             <div>
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-6 md:mt-10 gap-2">
-                <h1 className="text-2xl md:text-3xl text-gray-800  font-bold">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                <h1 className="text-2xl md:text-3xl text-[#292929]  font-bold">
                   {property.title ||
                     "Earthen home in Mueang Chiang Mai District, Thailand"}
                 </h1>
@@ -339,19 +339,19 @@ export default function SingleProperty() {
 
               <div className="flex flex-col md:flex-row justify-between items-start">
                 <div className="flex flex-col md:flex-row md:flex-wrap items-start md:items-center gap-2 md:gap-4 text-base md:text-lg mb-4">
-                  <span className="flex items-center gap-2 text-gray-800">
-                    <FaUser className="text-gray-800" />{" "}
+                  <span className="flex items-center gap-2 text-[#292929]">
+                    <FaUser className="text-[#292929]" />{" "}
                     {property.max_guests || 1} guests
                   </span>
-                  <span className="flex items-center gap-2 text-gray-800">
-                    <FaBed className="text-gray-800" /> {property.bedrooms || 1}{" "}
-                    bedroom
+                  <span className="flex items-center gap-2 text-[#292929]">
+                    <FaBed className="text-[#292929]" />{" "}
+                    {property.bedrooms || 1} bedroom
                   </span>
                   {/* <span className="flex items-center gap-2">
                     <FaBed /> {property.beds || 2} beds
                   </span> */}
-                  <span className="flex items-center gap-2 text-gray-800">
-                    <FaBath className="text-gray-800" />{" "}
+                  <span className="flex items-center gap-2 text-[#292929]">
+                    <FaBath className="text-[#292929]" />{" "}
                     {property.bathrooms || 1} bathroom
                   </span>
                 </div>
@@ -372,14 +372,17 @@ export default function SingleProperty() {
                       <h2 className="text-sm lg:text-[15px] font-medium">
                         Hosted by {property.host_name || "Superhomess"}
                       </h2>
+                      <h2 className="text-sm lg:text-[15px] font-medium">
+                        6 Years of Hosting
+                      </h2>
                     </div>
                   </div>
 
                   {/* Dates and Guests Section */}
                   <div className="w-full">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
-                      <div className="relative bg-[#EAEAEA] border border-gray-300 rounded-md w-full sm:w-60 md:w-72 lg:w-56 h-28 flex flex-col justify-center items-center">
-                        <label className="absolute text-gray-500 font-bold lg:left-8 left-1/2 lg:translate-x-0 -translate-x-1/2 top-8">
+                      <div className="relative bg-gray-300 border border-gray-300 rounded-md w-full h-28 flex flex-col justify-center pl-4">
+                        <label className="absolute text-[#6C6C6C] font-bold lg:left-8 left-1/2 lg:translate-x-0 -translate-x-1/2 top-8">
                           Check In
                         </label>
                         <DatePicker
@@ -392,11 +395,11 @@ export default function SingleProperty() {
                           }
                           selected={newAvailability.start_date}
                           placeholderText="Select Check-In Date"
-                          className="bg-transparent border-none outline-none w-full h-full p-4 pt-12 text-center lg:text-left lg:pl-8"
+                          className="bg-transparent border-none outline-none w-full h-full p-4 pt-12"
                         />
                       </div>
-                      <div className="relative bg-[#EAEAEA] border border-gray-300 rounded-md w-full sm:w-60 md:w-72 lg:w-56 h-28 flex flex-col justify-center items-center">
-                        <label className="absolute text-gray-500 font-bold lg:left-8 left-1/2 lg:translate-x-0 -translate-x-1/2 top-8">
+                      <div className="relative bg-gray-300 border border-gray-300 rounded-md w-full h-28 flex flex-col justify-center pl-4">
+                        <label className="absolute text-[#6C6C6C] font-bold lg:left-8 left-1/2 lg:translate-x-0 -translate-x-1/2 top-8">
                           Check Out
                         </label>
                         <DatePicker
@@ -409,7 +412,7 @@ export default function SingleProperty() {
                           }
                           selected={newAvailability.end_date}
                           placeholderText="Select Check-Out Date"
-                          className="bg-transparent border-none outline-none w-full h-full p-4 pt-12 text-center lg:text-left lg:pl-8"
+                          className="bg-transparent border-none outline-none w-full h-full p-4 pt-12"
                         />
                       </div>
                     </div>
@@ -453,8 +456,8 @@ export default function SingleProperty() {
                         <span className="font-medium">₹{property.price}</span>
                       </div> */}
                       <div className="flex justify-between items-center text-base lg:text-lg font-bold">
-                        <span className="text-gray-800">TOTAL</span>
-                        <span className="text-gray-800">
+                        <span className="text-[#292929]">TOTAL</span>
+                        <span className="text-[#292929]">
                           ₹{totalRent.toFixed(2)}
                         </span>
                       </div>
@@ -480,18 +483,18 @@ export default function SingleProperty() {
 
                 <button
                   onClick={handleReserve}
-                  className="w-full mt-6 bg-blue-700 text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
+                  className="w-full mt-6 bg-[#0044c1] text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors"
                 >
                   RESERVE NOW
                 </button>
               </div>
 
               {/* what we offer section */}
-              {/* <section>
+              <section>
                 <h2 className="text-2xl md:text-3xl text-center font-bold mt-8 md:mt-12">
                   WHAT THIS PLACE HAS TO OFFER
                 </h2>
-                <div>
+                {/* <div>
                   <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-4 md:gap-6 mt-4">
                     {shuffleArray(property.amenities)
                       ?.slice(0, 5)
@@ -507,23 +510,22 @@ export default function SingleProperty() {
                         </div>
                       ))}
                   </div>
-                </div>
-              </section> */}
+                </div> */}
+              </section>
 
               {/* Description and Amenities */}
               <div className="grid gap-8 mt-6">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-semibold mb-4">DESCRIPTION</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-center">DESCRIPTION</h2>
                     <p className="text-gray-700 whitespace-pre-line">
-                      {property.description ||
-                        `Leafy Greens was built as a retreat center for our family and friends. It is where people would visit to refresh their souls and mind. We work so hard to make this place to be one of the places that we can live in harmony with nature. That is why the cob houses are the right choice for us. Not only are the buildings eco-friendly but also the garden is organic. Visit here you will be able to take a deep breath and enjoy the fresh air with an organic environment. It is a perfect place to getaway!!`}
+                      {property.description || ""}
                     </p>
                   </div>
 
                   {/* amenities */}
-                  <div className="text-gray-800">
-                    <h2 className="w-full text-center text-2xl md:text-4xl font-bold md:p-4 md:m-5 mb-2 text-gray-800">
+                  <div className="text-[#292929]">
+                    <h2 className="w-full text-center text-2xl md:text-4xl font-bold md:p-4 md:m-5 mb-2 text-[#292929]">
                       WHAT YOU CAN EXPERIENCE
                     </h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">

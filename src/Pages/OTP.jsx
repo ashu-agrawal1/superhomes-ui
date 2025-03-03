@@ -70,10 +70,10 @@ const OTPVerify = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-bold text-gray-900">Verify OTP</h2>
+          <h2 className="text-3xl font-bold text-[#292929]">Verify OTP</h2>
           <p className="text-gray-500">
             We've sent a verification code to{" "}
-            <span className="font-medium text-gray-900">
+            <span className="font-medium text-[#292929]">
               {locationEmail || "your email"}
             </span>
           </p>

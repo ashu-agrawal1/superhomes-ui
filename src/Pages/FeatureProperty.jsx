@@ -58,13 +58,13 @@ const FeatureProperty = () => {
   return (
     <section className="px-10 mt-10">
       <div className="relative inline-block mb-6">
-        <h2 className="text-2xl font-bold flex items-center text-gray-800">
-          <span className="mr-2 text-gray-800 text-3xl">
+        <h2 className="text-2xl font-bold flex items-center text-[#292929]">
+          <span className="mr-2 text-[#292929] text-3xl">
             <FaStopwatch />
           </span>
           FEATURED PROPERTIES
         </h2>
-        <div className="absolute md:top-8 md:left-0 w-full h-1 bg-blue-600 md:mt-1"></div>
+        <div className="absolute md:top-8 md:left-0 w-full h-1 bg-[#0044C1] md:mt-1"></div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -75,7 +75,7 @@ const FeatureProperty = () => {
                 onClick={() => handleClick(property.id)}
                 className="bg-white rounded-md shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden"
               >
-                <div className="aspect-[3/2]  relative">
+                <div className="aspect-[2/2]  relative">
                   <img
                     src={property.images?.[0]?.url || "default-image.jpg"}
                     alt={`${property.title} property`}
@@ -86,7 +86,7 @@ const FeatureProperty = () => {
 
               <div className="px-2 flex flex-col flex-grow">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold line-clamp-1 text-gray-800 text-xl">
+                  <h3 className="text-base font-semibold line-clamp-1 text-[#292929] text-xl">
                     {property.title}
                   </h3>
                   <div className="flex items-center gap-1 text-xl">
@@ -101,7 +101,7 @@ const FeatureProperty = () => {
 
               <button
                 onClick={() => handleClick(property.id)}
-                className="w-full bg-blue-600 text-white py-2 px-3 text-[25.3px] hover:bg-blue-700 transition-colors font-semibold"
+                className="w-full  text-white py-2 bg-[#0044C1] px-3 text-[25.3px] transition-colors font-semibold"
               >
                 BOOK NOW
               </button>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Mail, Phone } from 'lucide-react';
-import whiteTypo from '../assets/WHITETTYPO.png';
+import { Facebook, Mail, Phone, Instagram } from "lucide-react";
+import whiteTypo from "../assets/WHITETTYPO.png";
 
 const Footer = () => {
   return (
@@ -13,31 +13,57 @@ const Footer = () => {
 
           {/* Navigation Links */}
           <nav className="flex flex-col sm:flex-row sm:space-x-4 text-gray-200 justify-center sm:justify-start">
-  <Link to="/contactus" className="hover:text-white transition-colors mb-2 sm:mb-0">
-    Contact Us
-  </Link>
-  <span className="text-gray-400 hidden sm:block">|</span>
-  <Link to="/privacy-policy" className="hover:text-white transition-colors mb-2 sm:mb-0">
-    Privacy Policy
-  </Link>
-  <span className="text-gray-400 hidden sm:block">|</span>
-  <Link to="/terms" className="hover:text-white transition-colors">
-    Terms & Conditions
-  </Link>
-</nav>
-
+            <Link
+              to="/contactus"
+              className="hover:text-white transition-colors mb-2 sm:mb-0"
+            >
+              Contact Us
+            </Link>
+            <span className="text-gray-400 hidden sm:block">|</span>
+            <Link
+              to="/privacy-policy"
+              className="hover:text-white transition-colors mb-2 sm:mb-0"
+            >
+              Privacy Policy
+            </Link>
+            <span className="text-gray-400 hidden sm:block">|</span>
+            <Link to="/terms" className="hover:text-white transition-colors">
+              Terms & Conditions
+            </Link>
+            <span className="text-gray-400 hidden sm:block">|</span>
+            <Link to="/aboutus" className="hover:text-white transition-colors">
+              About Us
+            </Link>
+          </nav>
 
           {/* Social Icons */}
           <div className="flex gap-4 sm:gap-6">
-            <Link to="#" className="text-gray-200 hover:text-white transition-colors">
+            {/* <Link
+              to=""
+              className="text-gray-200 hover:text-white transition-colors"
+            >
               <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
               <span className="sr-only">Facebook</span>
+            </Link> */}
+            <Link
+              to="https://www.instagram.com/Superhomess_33"
+              target="_blank"
+              className="text-gray-200 hover:text-white transition-colors"
+            >
+              <Instagram className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="sr-only">Instagram</span>
             </Link>
-            <Link to="#" className="text-gray-200 hover:text-white transition-colors">
+            <Link
+              to="mailto:contact@superhomess.com"
+              className="text-gray-200 hover:text-white transition-colors"
+            >
               <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
               <span className="sr-only">Email</span>
             </Link>
-            <Link to="#" className="text-gray-200 hover:text-white transition-colors">
+            <Link
+              to="tel:+919301696266"
+              className="text-gray-200 hover:text-white transition-colors"
+            >
               <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
               <span className="sr-only">Phone</span>
             </Link>
@@ -45,7 +71,9 @@ const Footer = () => {
 
           {/* Facebook Disclaimer */}
           <p className="text-sm text-gray-300 text-center max-w-2xl">
-            This site is not a part of the Facebook website or Facebook Inc. Additionally, This site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.
+            This site is not a part of the Facebook website or Facebook Inc.
+            Additionally, This site is NOT endorsed by Facebook in any way.
+            FACEBOOK is a trademark of FACEBOOK, Inc.
           </p>
 
           {/* Copyright */}

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../Redux/AuthSlice'; 
 import '../css/font.css';
-import logo from '../assets/ICON-GOLDEN.png';
+import logo from '../assets/ICON WHITE.png';
 export default function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <div>
-      <header className="flex  bg-gradient-to-r from-blue-700 to-blue-500 items-center justify-between p-10 relative">
+      <header className="flex  bg-gradient-to-r from-[#0753cf] to-[#008ae9] items-center justify-between p-10 relative">
         {/* Left Icons (FaBars) for all screen sizes */}
         <div className="flex items-center space-x-6">
           <FaBars 

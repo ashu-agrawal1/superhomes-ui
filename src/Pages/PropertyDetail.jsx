@@ -45,7 +45,7 @@ const PropertyDetail = () => {
 
   return (
     <div className="min-h-screen max-h-screen overflow-y-auto flex flex-col items-center bg-gray-100 p-6">
-      <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">
+      <h1 className="text-4xl font-bold text-[#292929] mb-4 text-center">
         {property.name}
       </h1>
       <div className="text-gray-600 mb-4 flex items-center space-x-2 text-center md:text-left">
@@ -81,7 +81,7 @@ const PropertyDetail = () => {
         </div>
       </div>
 
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Amenities</h2>
+      <h2 className="text-2xl font-semibold text-[#292929] mb-4">Amenities</h2>
       <ul className="flex flex-wrap gap-4 justify-center md:justify-start">
         {property.amenities.includes("Wi-Fi") && (
           <li className="flex items-center space-x-2">

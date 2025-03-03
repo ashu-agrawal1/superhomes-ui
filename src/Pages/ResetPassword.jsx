@@ -1,54 +1,62 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { resetPassword } from "../Redux/AuthSlice"
-import { Eye, EyeOff } from "lucide-react"
-import Header from "../components/Header"
-import Footer from "../components/Footer"
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { resetPassword } from "../Redux/AuthSlice";
+import { Eye, EyeOff } from "lucide-react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import HeaderLogin from "../components/HeaderLogin";
 
 export default function ResetPassword() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { loading, error } = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     email: "",
     otp: "",
     newPassword: "",
     confirmPassword: "",
-  })
-  const [showPassword, setShowPassword] = useState(false)
+  });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (formData.newPassword !== formData.confirmPassword) {
-      alert("Passwords don't match!")
-      return
+      alert("Passwords don't match!");
+      return;
     }
     const resultAction = await dispatch(
       resetPassword({
         email: formData.email,
         otp: formData.otp,
         newPassword: formData.newPassword,
-      }),
-    )
+      })
+    );
     if (!resultAction.error) {
-      navigate("/login")
+      navigate("/login");
     }
-  }
+  };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
-      <div className="max-w-4xl mx-auto p-8 bg-gray-200">
-        <h2 className="text-center text-5xl font-bold text-gray-900 mb-6">Reset Password</h2>
+      {/* <Header /> */}
+      <HeaderLogin />
+      <div className="max-w-4xl mx-auto p-8 bg-[#EDEDED] my-4">
+        <h2 className="text-center text-5xl font-bold text-[#292929] mb-6">
+          Reset Password
+        </h2>
 
-        {error && <p className="text-red-500 text-center mb-4">{error.message || JSON.stringify(error)}</p>}
+        {error && (
+          <p className="text-red-500 text-center mb-4">
+            {error.message || JSON.stringify(error)}
+          </p>
+        )}
 
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <div>
@@ -102,7 +110,11 @@ export default function ResetPassword() {
               className="absolute inset-y-0 right-3 top-6 flex items-center"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className="h-5 w-5 text-gray-600" /> : <Eye className="h-5 w-5 text-gray-600" />}
+              {showPassword ? (
+                <EyeOff className="h-5 w-5 text-gray-600" />
+              ) : (
+                <Eye className="h-5 w-5 text-gray-600" />
+              )}
             </button>
           </div>
 
@@ -125,7 +137,7 @@ export default function ResetPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white font-medium py-3 rounded-md hover:bg-blue-700 disabled:opacity-50"
+            className="w-full bg-[#0044C1] text-white font-medium py-3 rounded-md hover:bg-blue-700 disabled:opacity-50"
           >
             {loading ? "Resetting..." : "Reset Password"}
           </button>
@@ -133,6 +145,5 @@ export default function ResetPassword() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
-

@@ -8,7 +8,7 @@ export default function ViewMore() {
                     {/* Replace with actual image */}
                 </div>
                 <div className="flex flex-col justify-center p-6 md:w-1/2 text-center md:text-left">
-                    <h3 className="text-xl font-bold text-gray-800">Explore More Properties</h3>
+                    <h3 className="text-xl font-bold text-[#292929]">Explore More Properties</h3>
                     <p className="mt-3 text-gray-600">
                         Discover a variety of premium spaces designed to meet your needs and preferences.
                     </p>
