@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.cc3d4c3d.css",
-    "main.js": "/static/js/main.7ce3e4e3.js",
+    "main.js": "/static/js/main.9a34d06f.js",
     "static/media/Zapfino.ttf": "/static/media/Zapfino.c83b4a2c80c7d537eb71.ttf",
     "static/media/BLUETypo.png": "/static/media/BLUETypo.37f96727f33c3c4852d5.png",
     "static/media/BLUELogo.png": "/static/media/BLUELogo.a69ac38eb7c448c0bc0e.png",
@@ -12,10 +12,10 @@
     "static/media/ICON WHITE.png": "/static/media/ICON WHITE.fdc88f874971c369edbf.png",
     "index.html": "/index.html",
     "main.cc3d4c3d.css.map": "/static/css/main.cc3d4c3d.css.map",
-    "main.7ce3e4e3.js.map": "/static/js/main.7ce3e4e3.js.map"
+    "main.9a34d06f.js.map": "/static/js/main.9a34d06f.js.map"
   },
   "entrypoints": [
     "static/css/main.cc3d4c3d.css",
-    "static/js/main.7ce3e4e3.js"
+    "static/js/main.9a34d06f.js"
   ]
 }
