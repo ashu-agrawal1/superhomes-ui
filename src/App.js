@@ -26,6 +26,7 @@ import TermsAndConditions from "./Pages/TermsAndCondition";
 import ResetPassword from "./Pages/ResetPassword";
 import ForgetPasword from "./Pages/ForgetPassword";
 import AboutUs from "./Pages/AboutUs";
+import Cancellation from "./Pages/Cancellation";
 function App() {
   return (
     <div>
@@ -50,6 +51,7 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/cancel-policy" element={<Cancellation/> } />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/forgetPassword" element={<ForgetPasword />} />
