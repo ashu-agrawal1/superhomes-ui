@@ -34,6 +34,13 @@ const Footer = () => {
             <Link to="/aboutus" className="hover:text-white transition-colors">
               About Us
             </Link>
+            <span className="text-gray-400 hidden sm:block">|</span>
+            <Link
+              to="/cancel-policy"
+              className="hover:text-white transition-colors"
+            >
+              Cancellation and Refund Policy
+            </Link>
           </nav>
 
           {/* Social Icons */}
