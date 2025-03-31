@@ -167,7 +167,7 @@ export default function SingleProperty() {
       }
 
       const razorpayOptions = {
-        key: "rzp_test_suGlReUubwbXnb",
+        key: "rzp_live_n4Audjbv7adHaH",
         amount: order.amount,
         currency: order.currency,
         order_id: order.id,
