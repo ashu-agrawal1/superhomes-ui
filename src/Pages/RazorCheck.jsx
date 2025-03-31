@@ -50,7 +50,7 @@ const RazorCheck = ({ property, numberOfGuests, newAvailability }) => {
 
       // Open Razorpay modal
       const options = {
-        key: 'rzp_test_suGlReUubwbXnb', // Your Razorpay key
+        key: 'rzp_live_n4Audjbv7adHaH', // Your Razorpay key
         amount: order.amount, // Amount in paise
         currency: order.currency,
         order_id: order.id,
